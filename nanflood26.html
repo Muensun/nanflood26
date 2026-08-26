@@ -1,0 +1,605 @@
+<title>น้ำท่วมน่าน 2026</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page:          #f3f6f6;
+    --surface:       #ffffff;
+    --surface-2:     #eef3f3;
+    --ink:           #10222b;
+    --ink-soft:      #4c5f66;
+    --ink-muted:     #7f9096;
+    --border:        rgba(16,34,43,0.10);
+    --accent:        #1d6f8c;
+    --accent-ink:    #ffffff;
+    --accent-soft:   #dcebee;
+    --accent-soft-border: rgba(29,111,140,0.22);
+
+    --good:     #0ca30c;
+    --warning:  #b8790a;
+    --serious:  #c85d33;
+    --critical: #c22f2f;
+
+    --home:   #1baf7a;
+    --shelter:#e34948;
+    --goout:  #2a78d6;
+    --home-soft:    #e2f5ee;
+    --shelter-soft: #fbe7e6;
+    --goout-soft:   #e3edfa;
+
+    --shadow: 0 1px 2px rgba(16,34,43,0.06), 0 8px 24px -12px rgba(16,34,43,0.18);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page:          #0d1517;
+      --surface:       #141f22;
+      --surface-2:     #192629;
+      --ink:           #eef3f2;
+      --ink-soft:      #b7c4c6;
+      --ink-muted:     #86969a;
+      --border:        rgba(255,255,255,0.10);
+      --accent:        #4aa9c4;
+      --accent-ink:    #06171b;
+      --accent-soft:   rgba(74,169,196,0.16);
+      --accent-soft-border: rgba(74,169,196,0.30);
+
+      --good:     #0ca30c;
+      --warning:  #d99a1f;
+      --serious:  #ec835a;
+      --critical: #e66767;
+
+      --home:   #199e70;
+      --shelter:#e66767;
+      --goout:  #3987e5;
+      --home-soft:    rgba(25,158,112,0.16);
+      --shelter-soft: rgba(230,103,103,0.16);
+      --goout-soft:   rgba(57,135,229,0.16);
+
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page:          #0d1517;
+    --surface:       #141f22;
+    --surface-2:     #192629;
+    --ink:           #eef3f2;
+    --ink-soft:      #b7c4c6;
+    --ink-muted:     #86969a;
+    --border:        rgba(255,255,255,0.10);
+    --accent:        #4aa9c4;
+    --accent-ink:    #06171b;
+    --accent-soft:   rgba(74,169,196,0.16);
+    --accent-soft-border: rgba(74,169,196,0.30);
+
+    --good:     #0ca30c;
+    --warning:  #d99a1f;
+    --serious:  #ec835a;
+    --critical: #e66767;
+
+    --home:   #199e70;
+    --shelter:#e66767;
+    --goout:  #3987e5;
+    --home-soft:    rgba(25,158,112,0.16);
+    --shelter-soft: rgba(230,103,103,0.16);
+    --goout-soft:   rgba(57,135,229,0.16);
+
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: 'Thonburi', 'Noto Sans Thai', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .display {
+    font-family: 'Kohinoor Thai', 'Leelawadee UI', 'IBM Plex Sans Thai', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-weight: 700;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: clamp(24px, 5vw, 56px) clamp(16px, 4vw, 28px) 80px;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(40px, 6vw, 64px);
+  }
+
+  /* ---------- header ---------- */
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  header h1 {
+    font-size: clamp(2rem, 5vw, 2.9rem);
+    letter-spacing: -0.01em;
+  }
+  header .sub {
+    color: var(--ink-soft);
+    max-width: 62ch;
+    font-size: 1.02rem;
+  }
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+  .tag .dot { width: 7px; height: 7px; border-radius: 50%; }
+
+  /* ---------- section scaffolding ---------- */
+  section { display: flex; flex-direction: column; gap: 20px; }
+  .section-head { display: flex; flex-direction: column; gap: 4px; }
+  .section-head h2 { font-size: clamp(1.35rem, 3vw, 1.7rem); }
+  .section-head .sub { color: var(--ink-muted); font-size: 0.95rem; max-width: 60ch; }
+
+  /* ---------- causes ---------- */
+  .cause-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px;
+  }
+  .cause-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .icon-badge {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .icon-badge svg { width: 22px; height: 22px; }
+  .cause-card p { margin: 0; font-size: 0.95rem; color: var(--ink); font-weight: 600; }
+
+  .connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--ink-muted);
+    font-size: 0.82rem;
+    padding: 2px 0;
+  }
+  .connector::before, .connector::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .connector svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--accent); }
+
+  /* ---------- KPI stat tiles ---------- */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .stat-tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--critical);
+    border-radius: 14px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+  }
+  .stat-tile .label {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .stat-tile .value {
+    font-family: 'Kohinoor Thai', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    font-variant-numeric: proportional-nums;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-tile .value .unit {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+    margin-inline-start: 6px;
+  }
+
+  /* ---------- legend ---------- */
+  .legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .legend-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+  }
+  .legend-chip .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .legend-chip .en { color: var(--ink-muted); font-weight: 500; font-size: 0.8rem; }
+
+  /* ---------- matrix ---------- */
+  .matrix-scroll { overflow-x: auto; border-radius: 14px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+  table.matrix {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    font-size: 0.92rem;
+    min-width: 480px;
+  }
+  table.matrix th, table.matrix td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  table.matrix thead th {
+    font-weight: 700;
+    color: var(--ink-soft);
+    background: var(--surface-2);
+    font-size: 0.82rem;
+  }
+  table.matrix thead th:not(:first-child) { text-align: center; }
+  table.matrix tbody th {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  table.matrix tbody tr:last-child td, table.matrix tbody tr:last-child th { border-bottom: none; }
+  table.matrix td { text-align: center; }
+  .cell-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .cell-empty {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px dashed var(--border);
+  }
+
+  /* ---------- pillar cards ---------- */
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .pillar-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .pillar-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(16,34,43,0.08), 0 14px 28px -14px rgba(16,34,43,0.28);
+  }
+  .pillar-top { display: flex; align-items: center; gap: 12px; }
+  .pillar-top h3 { font-size: 1.08rem; }
+  .pillar-groups { display: flex; gap: 5px; margin-inline-start: auto; }
+  .mini-dot { width: 9px; height: 9px; border-radius: 50%; }
+  .pillar-card ul {
+    margin: 0;
+    padding-inline-start: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+  .pillar-card ul li span.note { color: var(--ink-muted); font-size: 0.84rem; }
+  .pillar-card ul ul { margin-top: 4px; padding-inline-start: 16px; }
+
+  /* ---------- recovery ---------- */
+  .recovery-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    counter-reset: step;
+  }
+  .recovery-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .step-num {
+    counter-increment: step;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-ink);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    flex-shrink: 0;
+  }
+  .step-num::before { content: counter(step); }
+  .recovery-item p { margin: 0; font-weight: 600; }
+
+  footer {
+    text-align: center;
+    color: var(--ink-muted);
+    font-size: 0.82rem;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pillar-card { transition: none; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <span class="eyebrow">OVERVIEW</span>
+    <h1>น้ำท่วมน่าน 2026</h1>
+    <p class="sub">สรุปสถานการณ์อุทกภัยจังหวัดน่าน ตั้งแต่สาเหตุ ผลกระทบ แนวทางรับมือ 3 กลุ่มเป้าหมาย ไปจนถึงการฟื้นฟูหลังน้ำลด</p>
+    <div class="tag-row">
+      <span class="tag"><span class="dot" style="background:var(--critical)"></span>กระทบ 4 อำเภอ</span>
+      <span class="tag"><span class="dot" style="background:var(--serious)"></span>มากกว่า 8,000 ครัวเรือน</span>
+      <span class="tag"><span class="dot" style="background:var(--warning)"></span>มากกว่า 16,000 คน</span>
+    </div>
+  </header>
+
+  <!-- ================= CAUSES ================= -->
+  <section aria-labelledby="causes-h">
+    <div class="section-head">
+      <span class="eyebrow">CAUSES</span>
+      <h2 id="causes-h">สาเหตุของอุทกภัย</h2>
+      <p class="sub">ปัจจัยทางอุตุนิยมวิทยาและลักษณะพื้นที่ต้นน้ำที่ประกอบกันจนเกิดน้ำท่วม</p>
+    </div>
+    <div class="cause-grid">
+      <div class="cause-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 15a4 4 0 0 1 .3-8 5.5 5.5 0 0 1 10.6 1.2A3.8 3.8 0 0 1 17 15H6Z"/><path d="M8 18l-1 2M12 18l-1 2M16 18l-1 2"/></svg>
+        </div>
+        <p>ฝนตกหนักต่อเนื่อง</p>
+      </div>
+      <div class="cause-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 8h11a3 3 0 1 0-2.5-4.6"/><path d="M3 13h15a3 3 0 1 1-2.5 4.6"/><path d="M3 18h8"/></svg>
+        </div>
+        <p>ร่องมรสุมกำลังแรง</p>
+      </div>
+      <div class="cause-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19 9.5 7 14 14.5 17 10l4 9H3Z"/><path d="M14 20v-4"/><path d="m11.2 17.6 2.8 2.4 2.8-2.4"/></svg>
+        </div>
+        <p>โครงสร้างต้นน้ำเป็นภูเขา น้ำมาเร็ว</p>
+      </div>
+      <div class="cause-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 7 10h3l-4 6h4v5h4v-5h4l-4-6h3L12 3Z"/></svg>
+        </div>
+        <p>ป่าและการใช้ที่ดินต้นน้ำ</p>
+      </div>
+    </div>
+
+    <div class="connector">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v13"/><path d="m6 13 6 6 6-6"/></svg>
+      นำไปสู่ผลกระทบในวงกว้าง
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v13"/><path d="m6 13 6 6 6-6"/></svg>
+    </div>
+  </section>
+
+  <!-- ================= IMPACT ================= -->
+  <section aria-labelledby="impact-h">
+    <div class="section-head">
+      <span class="eyebrow">IMPACT</span>
+      <h2 id="impact-h">ผลกระทบที่เกิดขึ้น</h2>
+    </div>
+    <div class="kpi-row">
+      <div class="stat-tile">
+        <div class="label">อำเภอที่ได้รับผลกระทบ</div>
+        <div class="value">4 <span class="unit">อำเภอ</span></div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">ครัวเรือนที่ได้รับผลกระทบ</div>
+        <div class="value">8,000+ <span class="unit">ครัวเรือน</span></div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">ประชาชนที่ได้รับผลกระทบ</div>
+        <div class="value">16,000+ <span class="unit">คน</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ACTIONS ================= -->
+  <section aria-labelledby="actions-h">
+    <div class="section-head">
+      <span class="eyebrow">ACTIONS — 3 GROUPS</span>
+      <h2 id="actions-h">แนวทางรับมือ 3 กลุ่มเป้าหมาย</h2>
+      <p class="sub">แต่ละกลุ่มสถานการณ์ต้องการการสนับสนุนจาก 4 เสาหลักไม่เท่ากัน — ดูความเชื่อมโยงในตารางด้านล่าง</p>
+    </div>
+
+    <div class="legend-row">
+      <span class="legend-chip" style="background:var(--home-soft); color:var(--home); border-color:var(--accent-soft-border)"><span class="dot" style="background:var(--home)"></span>อยู่บ้าน <span class="en">At home</span></span>
+      <span class="legend-chip" style="background:var(--shelter-soft); color:var(--shelter)"><span class="dot" style="background:var(--shelter)"></span>อยู่ศูนย์พักพิง <span class="en">At shelter</span></span>
+      <span class="legend-chip" style="background:var(--goout-soft); color:var(--goout)"><span class="dot" style="background:var(--goout)"></span>ออกไปข้างนอก <span class="en">Go out</span></span>
+    </div>
+
+    <div class="matrix-scroll">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>เสาหลักสนับสนุน</th>
+            <th style="color:var(--home)">อยู่บ้าน</th>
+            <th style="color:var(--shelter)">ศูนย์พักพิง</th>
+            <th style="color:var(--goout)">ออกไปข้างนอก</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>ศูนย์พักพิง<br><span class="note" style="font-weight:400;color:var(--ink-muted);font-size:0.78rem">Shelter</span></th>
+            <td><span class="cell-empty" title="ไม่เกี่ยวข้องโดยตรง"></span></td>
+            <td><span class="cell-dot" style="background:var(--shelter)" title="เกี่ยวข้อง"></span></td>
+            <td><span class="cell-empty" title="ไม่เกี่ยวข้องโดยตรง"></span></td>
+          </tr>
+          <tr>
+            <th>แผนอพยพ<br><span class="note" style="font-weight:400;color:var(--ink-muted);font-size:0.78rem">Evacuation Plan</span></th>
+            <td><span class="cell-dot" style="background:var(--home)" title="เกี่ยวข้อง"></span></td>
+            <td><span class="cell-dot" style="background:var(--shelter)" title="เกี่ยวข้อง"></span></td>
+            <td><span class="cell-dot" style="background:var(--goout)" title="เกี่ยวข้อง"></span></td>
+          </tr>
+          <tr>
+            <th>ศูนย์ข้อมูล<br><span class="note" style="font-weight:400;color:var(--ink-muted);font-size:0.78rem">Information Center</span></th>
+            <td><span class="cell-dot" style="background:var(--home)" title="เกี่ยวข้อง"></span></td>
+            <td><span class="cell-dot" style="background:var(--shelter)" title="เกี่ยวข้อง"></span></td>
+            <td><span class="cell-dot" style="background:var(--goout)" title="เกี่ยวข้อง"></span></td>
+          </tr>
+          <tr>
+            <th>ผู้สนับสนุน<br><span class="note" style="font-weight:400;color:var(--ink-muted);font-size:0.78rem">Supporters</span></th>
+            <td><span class="cell-dot" style="background:var(--home)" title="เกี่ยวข้อง"></span></td>
+            <td><span class="cell-empty" title="ไม่เกี่ยวข้องโดยตรง"></span></td>
+            <td><span class="cell-empty" title="ไม่เกี่ยวข้องโดยตรง"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pillar-grid">
+      <div class="pillar-card">
+        <div class="pillar-top">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20 12 4l9 16"/><path d="M8 20v-6h8v6"/></svg></div>
+          <h3>ศูนย์พักพิง</h3>
+          <div class="pillar-groups"><span class="mini-dot" style="background:var(--shelter)" title="อยู่ศูนย์พักพิง"></span></div>
+        </div>
+        <ul>
+          <li>ที่ตั้ง / การแบ่งโซน / ความจุ / เส้นทางเข้าถึง</li>
+          <li>ที่จอดรถและความจุ</li>
+          <li>สิ่งอำนวยความสะดวก <span class="note">(อาหาร / ยา / พลังงาน ฯลฯ)</span></li>
+          <li>เจ้าหน้าที่ <span class="note">(อาสาสมัคร / ฝ่ายปกครอง ฯลฯ)</span></li>
+        </ul>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-top">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="2.5"/><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z"/></svg></div>
+          <h3>แผนอพยพ</h3>
+          <div class="pillar-groups">
+            <span class="mini-dot" style="background:var(--home)" title="อยู่บ้าน"></span>
+            <span class="mini-dot" style="background:var(--shelter)" title="อยู่ศูนย์พักพิง"></span>
+            <span class="mini-dot" style="background:var(--goout)" title="ออกไปข้างนอก"></span>
+          </div>
+        </div>
+        <ul>
+          <li>แผนครัวเรือนและระดับอำเภอ <span class="note">(การฝึกอบรม / เครื่องมือ / จุดนัดพบ ฯลฯ)</span></li>
+          <li>แผนกลุ่มเปราะบาง <span class="note">(การฝึกอบรม / เครื่องมือ / อาสาสมัคร ฯลฯ)</span></li>
+        </ul>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-top">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v13"/><path d="M8.5 5.5a5 5 0 0 1 7 0"/><path d="M6 3a8.5 8.5 0 0 1 12 0"/><circle cx="12" cy="5" r="1.4" fill="currentColor" stroke="none"/></svg></div>
+          <h3>ศูนย์ข้อมูล</h3>
+          <div class="pillar-groups">
+            <span class="mini-dot" style="background:var(--home)" title="อยู่บ้าน"></span>
+            <span class="mini-dot" style="background:var(--shelter)" title="อยู่ศูนย์พักพิง"></span>
+            <span class="mini-dot" style="background:var(--goout)" title="ออกไปข้างนอก"></span>
+          </div>
+        </div>
+        <ul>
+          <li>ระบบเฝ้าระวัง
+            <ul>
+              <li>เซนเซอร์ <span class="note">(9Nanth)</span></li>
+              <li>Remote Sensing</li>
+            </ul>
+          </li>
+          <li>การแปลผลข้อมูล</li>
+          <li>ระบบแจ้งเตือน
+            <ul>
+              <li>Cell Broadcast</li>
+              <li>LINE OA: 9Nanth</li>
+              <li>เสียงตามสาย (PA System)</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-top">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.6"/><path d="M3 20c0-3.3 2.2-5.5 5-5.5s5 2.2 5 5.5"/><path d="M13.5 15c2.4.2 4 2.1 4 5"/></svg></div>
+          <h3>ผู้สนับสนุน</h3>
+          <div class="pillar-groups"><span class="mini-dot" style="background:var(--home)" title="อยู่บ้าน"></span></div>
+        </div>
+        <ul>
+          <li>งานโลจิสติกส์</li>
+          <li>ทีมกู้ภัย</li>
+          <li>ศูนย์รับแจ้งเหตุ (Call Center)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RECOVERY ================= -->
+  <section aria-labelledby="recovery-h">
+    <div class="section-head">
+      <span class="eyebrow">RECOVERY</span>
+      <h2 id="recovery-h">การฟื้นฟูหลังน้ำลด</h2>
+      <p class="sub">ลำดับการดำเนินงานฟื้นฟูพื้นที่และเยียวยาผู้ประสบภัย</p>
+    </div>
+    <div class="recovery-list">
+      <div class="recovery-item"><span class="step-num"></span><p>ล้างโคลนและขยะที่มากับน้ำ</p></div>
+      <div class="recovery-item"><span class="step-num"></span><p>จัดการของใช้ที่เสียหายจากครัวเรือน</p></div>
+      <div class="recovery-item"><span class="step-num"></span><p>เยียวยาผู้ประสบภัย</p></div>
+      <div class="recovery-item"><span class="step-num"></span><p>ซ่อมแซมสิ่งปลูกสร้าง</p></div>
+    </div>
+  </section>
+
+  <footer>สรุปจากผังแนวคิดต้นฉบับ (Nan Flood 26.pdf)</footer>
+
+</div>
