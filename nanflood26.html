@@ -258,14 +258,14 @@
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 12px;
-    padding: 10px 16px;
+    padding: clamp(10px, 1.4vw, 18px) clamp(16px, 2.4vw, 28px);
     border-top: 1px solid var(--border);
     flex-shrink: 0;
   }
   .nav-controls { display: flex; align-items: center; justify-content: center; gap: 18px; }
-  .credit { display: flex; align-items: center; gap: 8px; justify-self: start; min-width: 0; }
-  .credit-logo { height: 20px; width: auto; display: block; flex-shrink: 0; }
-  .credit-text { font-size: 0.72rem; color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .credit { display: flex; align-items: center; gap: clamp(6px, 1vw, 10px); justify-self: start; min-width: 0; }
+  .credit-logo { height: clamp(18px, 3.2vw, 34px); width: auto; display: block; flex-shrink: 0; }
+  .credit-text { font-size: clamp(0.7rem, 1.1vw, 0.92rem); color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .nav-spacer { justify-self: end; }
   @media (max-width: 560px) {
     .credit-text { display: none; }
