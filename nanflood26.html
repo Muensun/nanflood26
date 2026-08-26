@@ -456,6 +456,7 @@
     padding-top: 10px;
     border-top: 1px solid var(--border);
   }
+  .pillar-detail + .sources { max-width: 620px; }
   .sources-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); }
   .sources ol {
     margin: 0; padding: 0; list-style: none;
@@ -516,6 +517,8 @@
   }
   .pillar-detail ul li span.note { color: var(--ink-muted); font-size: 0.85rem; }
   .pillar-detail ul ul { margin-top: 5px; padding-inline-start: 18px; }
+  .item-title { font-weight: 700; color: var(--ink); }
+  .item-detail { margin: 6px 0 0; font-size: 0.84rem; color: var(--ink-muted); line-height: 1.55; }
 
   /* ================= recovery ================= */
   .recovery-flow {
@@ -744,11 +747,27 @@
           <div class="pillar-detail-groups"><span class="mini-dot" style="background:var(--shelter)" title="Go to shelter"></span></div>
         </div>
         <ul>
-          <li>Location, zoning, capacity &amp; access route</li>
+          <li>
+            <span class="item-title">Location, zoning, capacity &amp; access route</span>
+            <p class="item-detail" lang="th">เปิดศูนย์พักพิง 17 แห่งในเขตเทศบาลเมืองน่าน (โรงเรียน วัด และอาคารเทศบาลหลายแห่ง) และจุดอพยพอีก 7 แห่งใน อ.ปัว รวมถึงหอประชุมอำเภอปัว พร้อมแบ่งเขตเมืองน่านเป็น 3 โซนเหนือ-กลาง-ใต้ แต่ละโซนมีทีมเวรประจำการ<span class="cite">[1][2]</span></p>
+          </li>
           <li>Parking &amp; capacity</li>
-          <li>Facilities <span class="note">(food, medicine, power, etc.)</span></li>
-          <li>Staff <span class="note">(volunteers, local officials, etc.)</span></li>
+          <li>
+            <span class="item-title">Facilities <span class="note">(food, medicine, power, etc.)</span></span>
+            <p class="item-detail" lang="th">ศูนย์พักพิงจัดเตรียมอาหาร น้ำดื่ม ยา และของใช้จำเป็น พร้อมเปิดจุดอพยพสัตว์ 51 จุดทั่วจังหวัด รองรับสัตว์เลี้ยงได้ราว 155,242 ตัว<span class="cite">[1]</span></p>
+          </li>
+          <li>
+            <span class="item-title">Staff <span class="note">(volunteers, local officials, etc.)</span></span>
+            <p class="item-detail" lang="th">ประสานงานผ่านศูนย์กู้ภัยจังหวัดน่าน (054-059-855 ตลอด 24 ชม.) และมูลนิธิโรงพยาบาลปัว (054-719-434) ร่วมกับทีมเวรประจำเขตที่ประสานกับโรงพยาบาลในพื้นที่<span class="cite">[1][2]</span></p>
+          </li>
         </ul>
+      </div>
+      <div class="sources">
+        <span class="sources-label" lang="th">แหล่งอ้างอิง</span>
+        <ol>
+          <li>Lanner News, <a href="https://lannernews.com/21082569-01/" target="_blank" rel="noopener">“รวมจุดช่วยเหลือผู้ประสบภัยน้ำท่วมน่าน เปิด 17 ศูนย์พักพิงเมืองน่าน-7 จุดอพยพปัว”</a></li>
+          <li>Thai PBS, <a href="https://www.thaipbs.or.th/news/content/509636" target="_blank" rel="noopener">“รัฐบาลรับมือน้ำท่วมน่าน สั่งเฝ้าระวัง 24 ชม. - เร่งอพยพกลุ่มเปราะบางจากพื้นที่เสี่ยง”</a></li>
+        </ol>
       </div>
     </section>
 
@@ -769,9 +788,22 @@
           </div>
         </div>
         <ul>
-          <li>Household &amp; district plan <span class="note">(training, tools, points of contact, etc.)</span></li>
-          <li>Vulnerable-group plan <span class="note">(training, tools, volunteers, etc.)</span></li>
+          <li>
+            <span class="item-title">Household &amp; district plan <span class="note">(training, tools, points of contact, etc.)</span></span>
+            <p class="item-detail" lang="th">เทศบาลเมืองน่านแบ่งพื้นที่เป็น 3 โซนเหนือ-กลาง-ใต้ แต่ละโซนมีทีมเวรเฝ้าระวัง ขณะที่คณะของรองนายกรัฐมนตรีติดตามระดับน้ำตลอดคืนและสั่งอพยพครัวเรือนในพื้นที่เสี่ยงก่อนน้ำขึ้นสูงสุด<span class="cite">[1]</span></p>
+          </li>
+          <li>
+            <span class="item-title">Vulnerable-group plan <span class="note">(training, tools, volunteers, etc.)</span></span>
+            <p class="item-detail" lang="th">มีผู้เปราะบาง (ผู้สูงอายุ ผู้ป่วยติดเตียง) ราว 26 คนถูกอพยพตามคำแนะนำของ ปภ. ทว่าความเร่งด่วนของแผนนี้ถูกตอกย้ำเมื่อผู้ป่วยติดเตียงรายหนึ่งใน อ.ปัวที่อพยพไม่ทันกลายเป็น 1 ใน 2 ผู้เสียชีวิตจากเหตุการณ์นี้<span class="cite">[1][2]</span></p>
+          </li>
         </ul>
+      </div>
+      <div class="sources">
+        <span class="sources-label" lang="th">แหล่งอ้างอิง</span>
+        <ol>
+          <li>Thai PBS, <a href="https://www.thaipbs.or.th/news/content/509636" target="_blank" rel="noopener">“รัฐบาลรับมือน้ำท่วมน่าน สั่งเฝ้าระวัง 24 ชม. - เร่งอพยพกลุ่มเปราะบางจากพื้นที่เสี่ยง”</a></li>
+          <li>The Thaiger, <a href="https://thethaiger.com/news/national/nan-floods-two-dead-16000-people-affected" target="_blank" rel="noopener">“Nan floods leave two dead, affect 16,000 people”</a></li>
+        </ol>
       </div>
     </section>
 
@@ -792,21 +824,35 @@
           </div>
         </div>
         <ul>
-          <li>Monitoring system
+          <li>
+            <span class="item-title">Monitoring system</span>
             <ul>
               <li>Sensors <span class="note">(9Nanth)</span></li>
               <li>Remote sensing</li>
             </ul>
+            <p class="item-detail" lang="th">9Nanth คือ LINE Official Account ที่มูลนิธิรักษ์ป่าน่านดำเนินการร่วมกับจังหวัด ใช้ติดตามระดับน้ำและปริมาณฝน ควบคู่กับกล้อง CCTV ตรวจวัดระดับน้ำของกรมป้องกันและบรรเทาสาธารณภัย (ปภ.)<span class="cite">[1]</span></p>
           </li>
-          <li>Interpretation</li>
-          <li>Warning system
+          <li>
+            <span class="item-title">Interpretation</span>
+            <p class="item-detail" lang="th">ข้อมูลจากเซนเซอร์และปริมาณฝนถูกนำมาประมวลผลร่วมกับแบบจำลองสถานการณ์น้ำท่วมที่จัดทำไว้สำหรับการวางแผนฉุกเฉิน ช่วยคาดการณ์จุดเสี่ยงล่วงหน้า<span class="cite">[1]</span></p>
+          </li>
+          <li>
+            <span class="item-title">Warning system</span>
             <ul>
               <li>Cell Broadcast</li>
               <li>LINE OA: 9Nanth</li>
               <li>PA system</li>
             </ul>
+            <p class="item-detail" lang="th">ปภ. ยิงข้อความ Cell Broadcast ตรงถึงมือถือในพื้นที่เสี่ยง เช่น การเตือนวันที่ 19 สิงหาคมว่าแม่น้ำน่านที่ อ.เวียงสาใกล้ล้นตลิ่ง ควบคู่กับการอัปเดตผ่าน LINE OA 9Nanth<span class="cite">[1][2]</span></p>
           </li>
         </ul>
+      </div>
+      <div class="sources">
+        <span class="sources-label" lang="th">แหล่งอ้างอิง</span>
+        <ol>
+          <li>Nan City, <a href="https://nancity.go.th/news/detail/5361" target="_blank" rel="noopener">“รวมช่องทาง เช็กสถานการณ์น้ำ ในพื้นที่จังหวัดน่าน”</a></li>
+          <li>Amarin TV, <a href="https://www.amarintv.com/news/social/555217" target="_blank" rel="noopener">“ด่วน! ปภ. ยิงเตือน Cell Broadcast แม่น้ำน่านจ่อล้นตลิ่ง อ.เวียงสา”</a></li>
+        </ol>
       </div>
     </section>
 
@@ -823,10 +869,27 @@
           <div class="pillar-detail-groups"><span class="mini-dot" style="background:var(--home)" title="Stay home"></span></div>
         </div>
         <ul>
-          <li>Logistics</li>
-          <li>Rescue team</li>
-          <li>Call center</li>
+          <li>
+            <span class="item-title">Logistics</span>
+            <p class="item-detail" lang="th">กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อมร่วมกับมูลนิธิเพชรเกษมใช้เฮลิคอปเตอร์ 2 ลำ บิน 3 เที่ยวส่งถุงยังชีพ 110 ชุดและอาหารกล่อง 710 กล่องให้ 5 หมู่บ้านที่ถูกตัดขาดใกล้ อ.ปัว (21 ส.ค. 69) ท่ามกลางสภาพอากาศปิดจนต้องลงจอดฉุกเฉินในไร่ข้าวโพดแล้วขนของด้วยแรงคน<span class="cite">[1]</span></p>
+          </li>
+          <li>
+            <span class="item-title">Rescue team</span>
+            <p class="item-detail" lang="th">มูลนิธิกู้ภัยเพชรเกษมส่งรถบรรทุก 8 คัน เรือท้องแบนติดเครื่องยนต์ 10 ลำ และกำลังพล 40 คนลงพื้นที่ ร่วมกับมูลนิธิร่วมกตัญญูและมูลนิธิสว่างรวมใจที่เสริมกำลังพลรวมกันอีกราว 50 คน พร้อมเรือกู้ภัย 5 ลำ<span class="cite">[2]</span></p>
+          </li>
+          <li>
+            <span class="item-title">Call center</span>
+            <p class="item-detail" lang="th">ประชาชนติดต่อได้ที่ศูนย์กู้ภัยจังหวัดน่าน (054-059-855 ตลอด 24 ชม.) ศูนย์บรรเทาสาธารณภัย (054-773-888) การแพทย์ฉุกเฉิน (1669) หรือสำนักงาน ปภ. จังหวัดน่าน (054-716-174)<span class="cite">[3]</span></p>
+          </li>
         </ul>
+      </div>
+      <div class="sources">
+        <span class="sources-label" lang="th">แหล่งอ้างอิง</span>
+        <ol>
+          <li>TopNews, <a href="https://www.topnews.co.th/news/1669749" target="_blank" rel="noopener">“ทส.ผนึกมูลนิธิเพชรเกษม บินฝ่าฝนส่งเสบียงช่วยชาวปัว หลังน้ำป่าตัดขาดหมู่บ้าน”</a>, 21 Aug 2026</li>
+          <li>Nan PRD, <a href="https://nan.prd.go.th/th/content/category/detail/id/9/iid/318100" target="_blank" rel="noopener">อัปเดตสถานการณ์อุทกภัยจังหวัดน่าน — รายชื่อมูลนิธิกู้ภัยที่ระดมกำลัง</a></li>
+          <li>Lanner News, <a href="https://lannernews.com/21082569-01/" target="_blank" rel="noopener">“รวมจุดช่วยเหลือผู้ประสบภัยน้ำท่วมน่าน … พร้อมเบอร์ฉุกเฉิน”</a></li>
+        </ol>
       </div>
     </section>
 
