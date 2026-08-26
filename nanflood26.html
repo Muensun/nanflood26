@@ -349,7 +349,7 @@
     .actions-grid { grid-template-columns: 1fr !important; }
   }
 
-  /* ================= actions hub specific ================= */
+  /* ================= actions hub specific (reserved: 3-group filter mode, to return later) ================= */
   .actions-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -400,6 +400,32 @@
   .hub-pillar.highlight { border-color: var(--accent); }
 
   .hint { font-size: 0.82rem; color: var(--ink-muted); }
+
+  /* ================= actions pillar grid (current view) ================= */
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+  }
+  .pillar-card {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease;
+  }
+  .pillar-card:hover { transform: translateX(4px); }
+  .pillar-card-txt { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+  .pillar-card-title { margin: 0; font-size: 1rem; font-weight: 700; color: var(--ink); }
+  .pillar-card-desc { margin: 0; font-size: 0.84rem; color: var(--ink-soft); line-height: 1.4; }
+  .pillar-card .chev { color: var(--ink-muted); flex-shrink: 0; }
+  .pillar-card .chev svg { width: 18px; height: 18px; }
 
   /* ================= causes ================= */
   .cause-grid {
@@ -667,44 +693,41 @@
       <div class="slide-head">
         <span class="eyebrow">ACTIONS — 3 GROUPS</span>
         <h2>Actions — 3 Groups</h2>
-        <p class="sub hint">Click a group on the left to highlight its connections, or click a pillar on the right for details.</p>
+        <p class="sub">Four support pillars power the response. Select one for details.</p>
       </div>
-      <div class="actions-grid" id="actions-grid">
-        <svg class="connector-svg" id="actions-svg"></svg>
-        <div class="hub-col" id="actions-groups">
-          <span class="col-label">3 Groups</span>
-          <button class="hub-group" style="--group-color:var(--home)" data-targets="evac,info,supporters" aria-pressed="false">
-            <span class="dot"></span>
-            <span class="txt"><span class="label">Stay home</span></span>
-          </button>
-          <button class="hub-group" style="--group-color:var(--shelter)" data-targets="shelter,evac,info" aria-pressed="false">
-            <span class="dot"></span>
-            <span class="txt"><span class="label">Go to shelter</span></span>
-          </button>
-          <button class="hub-group" style="--group-color:var(--goout)" data-targets="evac,info" aria-pressed="false">
-            <span class="dot"></span>
-            <span class="txt"><span class="label">Leave the area</span></span>
-          </button>
-        </div>
-        <div class="hub-col" id="actions-pillars">
-          <span class="col-label">4 Support Pillars</span>
-          <button class="hub-pillar" id="pillar-shelter" data-goto="shelter">
-            <div class="txt"><span class="label">Shelter</span></div>
-            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
-          </button>
-          <button class="hub-pillar" id="pillar-evac" data-goto="evac">
-            <div class="txt"><span class="label">Evacuation Plan</span></div>
-            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
-          </button>
-          <button class="hub-pillar" id="pillar-info" data-goto="info">
-            <div class="txt"><span class="label">Information Center</span></div>
-            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
-          </button>
-          <button class="hub-pillar" id="pillar-supporters" data-goto="supporters">
-            <div class="txt"><span class="label">Supporters</span></div>
-            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
-          </button>
-        </div>
+      <div class="pillar-grid">
+        <button class="pillar-card" data-goto="shelter">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20 12 4l9 16"/><path d="M8 20v-6h8v6"/></svg></div>
+          <div class="pillar-card-txt">
+            <p class="pillar-card-title">Shelter</p>
+            <p class="pillar-card-desc">Location, capacity, facilities &amp; staffing for evacuation centers</p>
+          </div>
+          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+        </button>
+        <button class="pillar-card" data-goto="evac">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="2.5"/><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z"/></svg></div>
+          <div class="pillar-card-txt">
+            <p class="pillar-card-title">Evacuation Plan</p>
+            <p class="pillar-card-desc">Household, district &amp; vulnerable-group evacuation plans</p>
+          </div>
+          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+        </button>
+        <button class="pillar-card" data-goto="info">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v13"/><path d="M8.5 5.5a5 5 0 0 1 7 0"/><path d="M6 3a8.5 8.5 0 0 1 12 0"/><circle cx="12" cy="5" r="1.4" fill="currentColor" stroke="none"/></svg></div>
+          <div class="pillar-card-txt">
+            <p class="pillar-card-title">Information Center</p>
+            <p class="pillar-card-desc">Monitoring, interpretation &amp; warning systems</p>
+          </div>
+          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+        </button>
+        <button class="pillar-card" data-goto="supporters">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.6"/><path d="M3 20c0-3.3 2.2-5.5 5-5.5s5 2.2 5 5.5"/><path d="M13.5 15c2.4.2 4 2.1 4 5"/></svg></div>
+          <div class="pillar-card-txt">
+            <p class="pillar-card-title">Supporters</p>
+            <p class="pillar-card-desc">Logistics, rescue teams &amp; the call center</p>
+          </div>
+          <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+        </button>
       </div>
     </section>
 
@@ -938,6 +961,8 @@
     });
   }
 
+  // Reserved for the future 3-group filter mode on the Actions slide — currently a no-op
+  // since #actions-svg / .hub-group aren't in the markup (the slide shows the 4-pillar grid instead).
   function drawActionConnectors() {
     var svg = document.getElementById('actions-svg');
     if (!svg || svg.clientWidth === 0) return;
