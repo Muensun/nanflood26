@@ -404,7 +404,7 @@
   /* ================= causes ================= */
   .cause-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     gap: 12px;
   }
   .cause-card {
@@ -417,7 +417,30 @@
     flex-direction: column;
     gap: 12px;
   }
-  .cause-card p { margin: 0; font-size: 0.95rem; color: var(--ink); font-weight: 700; }
+  .cause-body { display: flex; flex-direction: column; gap: 6px; }
+  .cause-title { margin: 0; font-size: 0.95rem; color: var(--ink); font-weight: 700; }
+  .cause-detail { margin: 0; font-size: 0.84rem; line-height: 1.55; color: var(--ink-soft); }
+  .cite { font-size: 0.78em; color: var(--accent); font-weight: 700; margin-inline-start: 2px; white-space: nowrap; }
+
+  .sources {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .sources-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); }
+  .sources ol {
+    margin: 0; padding: 0; list-style: none;
+    display: flex; flex-wrap: wrap; gap: 6px 18px;
+    font-size: 0.78rem; color: var(--ink-muted);
+    counter-reset: src;
+  }
+  .sources ol li { counter-increment: src; }
+  .sources ol li::before { content: "[" counter(src) "] "; color: var(--ink-muted); }
+  .sources a { color: var(--ink-soft); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 2px; }
+  .sources a:hover { color: var(--accent); text-decoration-color: var(--accent); }
 
   /* ================= impacts ================= */
   .kpi-row {
@@ -560,25 +583,46 @@
       <div class="slide-head">
         <span class="eyebrow">CAUSES</span>
         <h2>Causes of the Flood</h2>
-        <p class="sub">The meteorological and upstream conditions that combined to cause the flooding.</p>
+        <p class="sub">The meteorological and upstream conditions that combined to cause the August 2026 flooding, researched from Thai and international reporting.</p>
       </div>
       <div class="cause-grid">
         <div class="cause-card">
           <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 15a4 4 0 0 1 .3-8 5.5 5.5 0 0 1 10.6 1.2A3.8 3.8 0 0 1 17 15H6Z"/><path d="M8 18l-1 2M12 18l-1 2M16 18l-1 2"/></svg></div>
-          <p>Heavy, sustained rainfall</p>
+          <div class="cause-body">
+            <p class="cause-title">Heavy, sustained rainfall</p>
+            <p class="cause-detail">Between 18–19 August, upstream stations recorded extreme totals — 388&nbsp;mm in four hours at Bo Kluea, 277.6&nbsp;mm in 24 hours at Pua, and up to 330&nbsp;mm within six hours in places — far beyond what the terrain could absorb.<span class="cite">[1]</span></p>
+          </div>
         </div>
         <div class="cause-card">
           <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 8h11a3 3 0 1 0-2.5-4.6"/><path d="M3 13h15a3 3 0 1 1-2.5 4.6"/><path d="M3 18h8"/></svg></div>
-          <p>Strong monsoon trough</p>
+          <div class="cause-body">
+            <p class="cause-title">Strong monsoon trough</p>
+            <p class="cause-detail">Thailand's National Water Resources Office attributed the rain to a low-pressure trough over the upper North combined with a strengthened southwest monsoon — not a tropical cyclone — drawing Andaman Sea moisture into a collision with the Luang Prabang range.<span class="cite">[1]</span></p>
+          </div>
         </div>
         <div class="cause-card">
           <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19 9.5 7 14 14.5 17 10l4 9H3Z"/><path d="M14 20v-4"/><path d="m11.2 17.6 2.8 2.4 2.8-2.4"/></svg></div>
-          <p>Mountainous headwaters — fast runoff</p>
+          <div class="cause-body">
+            <p class="cause-title">Mountainous headwaters — fast runoff</p>
+            <p class="cause-detail">About 87% of Nan is steep, V-shaped mountain terrain with villages on narrow valley floors, so rain falling upstream can reach the main river in as little as 4–8 hours. No large retention dam sits upstream — the nearest, Sirikit Dam, is downstream in Uttaradit.<span class="cite">[2]</span></p>
+          </div>
         </div>
         <div class="cause-card">
           <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 7 10h3l-4 6h4v5h4v-5h4l-4-6h3L12 3Z"/></svg></div>
-          <p>Forest cover &amp; upstream land use</p>
+          <div class="cause-body">
+            <p class="cause-title">Forest cover &amp; upstream land use</p>
+            <p class="cause-detail">Nan lost roughly 1.2 million rai of forest over 1964–2018, much of it cleared for row crops like maize; satellite analysis found 66,072 hectares (~412,950 rai) cleared in 2001–2016 alone, and cropland now accounts for the large majority of modelled soil erosion in the watershed.<span class="cite">[3][4]</span></p>
+          </div>
         </div>
+      </div>
+      <div class="sources">
+        <span class="sources-label">Sources</span>
+        <ol>
+          <li>The Pattaya News, <a href="https://thepattayanews.com/2026/08/21/floodwaters-begin-to-recede-in-nan-province-after-record-rainfall-as-northern-thailand-monitors-recovery-and-weekend-risks/" target="_blank" rel="noopener">“Floodwaters Begin to Recede in Nan Province After Record Rainfall”</a>, 21 Aug 2026</li>
+          <li>Thai PBS, <a href="https://www.thaipbs.or.th/news/content/509691" target="_blank" rel="noopener">“แกะรอยน้ำท่วม ‘น่าน’ ทำไมมวลน้ำมาเร็ว-ท่วมหนักซ้ำซาก ?”</a></li>
+          <li>iGreenStory, <a href="https://www.igreenstory.co/flood-14/" target="_blank" rel="noopener">“กว่า 6 ทศวรรษป่าหาย-โลกร้อนฝนหาใหญ่ไร้แผนรับมือ ต้นตอ’น่าน’จมน้ำ”</a></li>
+          <li>Nation Thailand, <a href="https://www.nationthailand.com/news/general/40070049" target="_blank" rel="noopener">“Forest loss may amplify Nan flood risk, studies find”</a></li>
+        </ol>
       </div>
     </section>
 
