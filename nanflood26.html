@@ -89,6 +89,7 @@
   }
 
   * { box-sizing: border-box; }
+  html, body { height: 100%; }
 
   body {
     margin: 0;
@@ -97,6 +98,7 @@
     font-family: 'Thonburi', 'Noto Sans Thai', -apple-system, 'Segoe UI', system-ui, sans-serif;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    overflow: hidden;
   }
 
   h1, h2, h3, .display {
@@ -106,23 +108,8 @@
     margin: 0;
   }
 
-  .wrap {
-    max-width: 920px;
-    margin: 0 auto;
-    padding: clamp(24px, 5vw, 56px) clamp(16px, 4vw, 28px) 80px;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(40px, 6vw, 64px);
-  }
+  button { font: inherit; color: inherit; }
 
-  /* ---------- header ---------- */
-  header {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding-bottom: 28px;
-    border-bottom: 1px solid var(--border);
-  }
   .eyebrow {
     font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
     font-size: 0.72rem;
@@ -131,41 +118,252 @@
     text-transform: uppercase;
     color: var(--accent);
   }
-  header h1 {
-    font-size: clamp(2rem, 5vw, 2.9rem);
-    letter-spacing: -0.01em;
-  }
-  header .sub {
-    color: var(--ink-soft);
-    max-width: 62ch;
-    font-size: 1.02rem;
-  }
-  .tag-row {
+
+  /* ================= app shell ================= */
+  .app {
+    height: 100dvh;
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 6px;
+    flex-direction: column;
   }
-  .tag {
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px clamp(16px, 4vw, 32px);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Kohinoor Thai', -apple-system, sans-serif;
+    font-weight: 700;
+    font-size: 0.98rem;
+  }
+  .crumb {
+    margin-inline-start: auto;
+    color: var(--ink-muted);
+    font-size: 0.82rem;
+  }
+  .counter {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-muted);
+    font-size: 0.78rem;
+    padding-inline-start: 14px;
+    border-inline-start: 1px solid var(--border);
+  }
+  .progress {
+    height: 3px;
+    background: var(--surface-2);
+    flex-shrink: 0;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 11.11%;
+    transition: width 0.35s ease;
+  }
+
+  .stage {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(14px, 2.4vw, 22px);
+    padding: clamp(20px, 4vw, 48px) clamp(20px, 6vw, 84px);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(36px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    overflow-y: auto;
+  }
+  .slide.active { opacity: 1; pointer-events: auto; transform: translateX(0); }
+  .slide.exit-left { transform: translateX(-36px); }
+  @media (prefers-reduced-motion: reduce) {
+    .slide { transition: opacity 0.15s linear; transform: none !important; }
+  }
+
+  .slide-head { max-width: 720px; }
+  .slide-head h2 { font-size: clamp(1.5rem, 3.6vw, 2.15rem); }
+  .slide-head .sub { color: var(--ink-soft); margin-top: 6px; font-size: 0.98rem; max-width: 62ch; }
+
+  .back-link {
+    all: unset;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 12px;
-    border-radius: 999px;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
+    cursor: pointer;
+    color: var(--ink-muted);
     font-size: 0.82rem;
-    color: var(--ink-soft);
+    margin-bottom: 4px;
   }
-  .tag .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .back-link:hover, .back-link:focus-visible { color: var(--accent); }
+  .back-link svg { width: 14px; height: 14px; }
 
-  /* ---------- section scaffolding ---------- */
-  section { display: flex; flex-direction: column; gap: 20px; }
-  .section-head { display: flex; flex-direction: column; gap: 4px; }
-  .section-head h2 { font-size: clamp(1.35rem, 3vw, 1.7rem); }
-  .section-head .sub { color: var(--ink-muted); font-size: 0.95rem; max-width: 60ch; }
+  .deck-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 12px;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .nav-btn {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.15rem;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .nav-btn:hover:not(:disabled) { background: var(--surface-2); transform: translateY(-1px); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .dots { display: flex; gap: 7px; }
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--border);
+    border: none; padding: 0; cursor: pointer;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .dot.active { background: var(--accent); transform: scale(1.5); }
+  button:focus-visible, .hub-branch:focus-visible, .hub-pillar:focus-visible, .hub-group:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
 
-  /* ---------- causes ---------- */
+  .icon-badge {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .icon-badge svg { width: 22px; height: 22px; }
+
+  /* ================= hub (overview / actions) ================= */
+  .hub-grid {
+    display: grid;
+    grid-template-columns: minmax(180px, 260px) 1fr;
+    gap: clamp(24px, 5vw, 56px);
+    align-items: center;
+    position: relative;
+  }
+  .connector-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .connector-svg path { transition: opacity 0.2s ease; }
+  .connector-svg.filtering path { opacity: 0.12; }
+
+  .hub-root {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-radius: 18px;
+    padding: 26px 22px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    position: relative;
+    z-index: 1;
+  }
+  .hub-root .display { font-size: 1.15rem; }
+  .hub-root .en { font-size: 0.72rem; opacity: 0.85; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+
+  .hub-branches { display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 1; }
+  .hub-branch {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 18px;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .hub-branch:hover { transform: translateX(4px); }
+  .hub-branch .txt { display: flex; flex-direction: column; gap: 1px; }
+  .hub-branch .txt .th { font-weight: 700; font-size: 0.98rem; }
+  .hub-branch .txt .stat { font-size: 0.8rem; color: var(--ink-muted); }
+  .hub-branch .chev { margin-inline-start: auto; color: var(--ink-muted); flex-shrink: 0; }
+  .hub-branch .chev svg { width: 16px; height: 16px; }
+
+  @media (max-width: 760px) {
+    .hub-grid { grid-template-columns: 1fr; }
+    .connector-svg { display: none; }
+    .actions-grid { grid-template-columns: 1fr !important; }
+  }
+
+  /* ================= actions hub specific ================= */
+  .actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(28px, 6vw, 72px);
+    position: relative;
+  }
+  .hub-col { display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 1; }
+  .hub-col .col-label { font-size: 0.76rem; color: var(--ink-muted); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 2px; }
+
+  .hub-group {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-radius: 14px;
+    padding: 13px 16px;
+    border: 1.5px solid var(--group-color);
+    background: color-mix(in srgb, var(--group-color) 10%, var(--surface));
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease;
+  }
+  .hub-group:hover { transform: translateX(-3px); }
+  .hub-group .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--group-color); flex-shrink: 0; }
+  .hub-group .txt .th { font-weight: 700; font-size: 0.95rem; color: var(--ink); }
+  .hub-group .txt .en { font-size: 0.76rem; color: var(--ink-muted); }
+  .hub-group[aria-pressed="true"] { background: var(--group-color); }
+  .hub-group[aria-pressed="true"] .txt .th,
+  .hub-group[aria-pressed="true"] .txt .en { color: var(--accent-ink); }
+  .hub-group[aria-pressed="true"] .dot { background: var(--accent-ink); }
+
+  .hub-pillar {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 13px 16px;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, opacity 0.2s ease;
+  }
+  .hub-pillar:hover { transform: translateX(3px); }
+  .hub-pillar .txt .th { font-weight: 700; font-size: 0.95rem; }
+  .hub-pillar .txt .en { font-size: 0.76rem; color: var(--ink-muted); }
+  .hub-pillar .chev { margin-inline-start: auto; color: var(--ink-muted); flex-shrink: 0; }
+  .hub-pillar .chev svg { width: 16px; height: 16px; }
+  .hub-pillar.dim { opacity: 0.32; }
+  .hub-pillar.highlight { border-color: var(--accent); }
+
+  .hint {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+  }
+
+  /* ================= causes ================= */
   .cause-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -181,183 +379,86 @@
     flex-direction: column;
     gap: 12px;
   }
-  .icon-badge {
-    width: 40px; height: 40px;
-    border-radius: 10px;
-    background: var(--accent-soft);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--accent);
-    flex-shrink: 0;
-  }
-  .icon-badge svg { width: 22px; height: 22px; }
   .cause-card p { margin: 0; font-size: 0.95rem; color: var(--ink); font-weight: 600; }
 
-  .connector {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    color: var(--ink-muted);
-    font-size: 0.82rem;
-    padding: 2px 0;
-  }
-  .connector::before, .connector::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-  .connector svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--accent); }
-
-  /* ---------- KPI stat tiles ---------- */
+  /* ================= impacts ================= */
   .kpi-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
   }
   .stat-tile {
     background: var(--surface);
     border: 1px solid var(--border);
     border-top: 3px solid var(--critical);
-    border-radius: 14px;
-    padding: 20px 22px;
+    border-radius: 16px;
+    padding: 26px 26px;
     box-shadow: var(--shadow);
   }
-  .stat-tile .label {
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-    margin-bottom: 8px;
-  }
+  .stat-tile .label { font-size: 0.88rem; color: var(--ink-soft); margin-bottom: 10px; }
   .stat-tile .value {
     font-family: 'Kohinoor Thai', -apple-system, 'Segoe UI', system-ui, sans-serif;
-    font-size: 2.4rem;
+    font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
     font-variant-numeric: proportional-nums;
-    color: var(--ink);
     line-height: 1;
   }
-  .stat-tile .value .unit {
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--ink-muted);
-    margin-inline-start: 6px;
-  }
+  .stat-tile .value .unit { font-size: 1.05rem; font-weight: 600; color: var(--ink-muted); margin-inline-start: 6px; }
 
-  /* ---------- legend ---------- */
-  .legend-row {
+  /* ================= legend chips ================= */
+  .legend-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .legend-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 13px; border-radius: 10px;
+    font-size: 0.85rem; font-weight: 600;
+  }
+  .legend-chip .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .legend-chip .en { color: var(--ink-muted); font-weight: 500; font-size: 0.76rem; }
+
+  /* ================= pillar detail slides ================= */
+  .pillar-detail {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: clamp(20px, 3vw, 32px);
+    box-shadow: var(--shadow);
+    max-width: 620px;
     display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .pillar-detail-top { display: flex; align-items: center; gap: 14px; }
+  .pillar-detail-top h2 { font-size: 1.3rem; }
+  .pillar-detail-groups { display: flex; gap: 6px; margin-inline-start: auto; }
+  .mini-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .pillar-detail ul {
+    margin: 0; padding-inline-start: 20px;
+    display: flex; flex-direction: column; gap: 8px;
+    font-size: 0.95rem; color: var(--ink-soft);
+  }
+  .pillar-detail ul li span.note { color: var(--ink-muted); font-size: 0.85rem; }
+  .pillar-detail ul ul { margin-top: 5px; padding-inline-start: 18px; }
+
+  /* ================= recovery ================= */
+  .recovery-flow {
+    display: flex;
+    align-items: stretch;
     flex-wrap: wrap;
     gap: 10px;
-  }
-  .legend-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    border-radius: 10px;
-    font-size: 0.88rem;
-    font-weight: 600;
-    border: 1px solid var(--border);
-  }
-  .legend-chip .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .legend-chip .en { color: var(--ink-muted); font-weight: 500; font-size: 0.8rem; }
-
-  /* ---------- matrix ---------- */
-  .matrix-scroll { overflow-x: auto; border-radius: 14px; border: 1px solid var(--border); box-shadow: var(--shadow); }
-  table.matrix {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--surface);
-    font-size: 0.92rem;
-    min-width: 480px;
-  }
-  table.matrix th, table.matrix td {
-    padding: 12px 14px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-  table.matrix thead th {
-    font-weight: 700;
-    color: var(--ink-soft);
-    background: var(--surface-2);
-    font-size: 0.82rem;
-  }
-  table.matrix thead th:not(:first-child) { text-align: center; }
-  table.matrix tbody th {
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  table.matrix tbody tr:last-child td, table.matrix tbody tr:last-child th { border-bottom: none; }
-  table.matrix td { text-align: center; }
-  .cell-dot {
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    display: inline-block;
-  }
-  .cell-empty {
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    display: inline-block;
-    border: 1px dashed var(--border);
-  }
-
-  /* ---------- pillar cards ---------- */
-  .pillar-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 14px;
-  }
-  .pillar-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .pillar-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 2px 4px rgba(16,34,43,0.08), 0 14px 28px -14px rgba(16,34,43,0.28);
-  }
-  .pillar-top { display: flex; align-items: center; gap: 12px; }
-  .pillar-top h3 { font-size: 1.08rem; }
-  .pillar-groups { display: flex; gap: 5px; margin-inline-start: auto; }
-  .mini-dot { width: 9px; height: 9px; border-radius: 50%; }
-  .pillar-card ul {
-    margin: 0;
-    padding-inline-start: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    font-size: 0.9rem;
-    color: var(--ink-soft);
-  }
-  .pillar-card ul li span.note { color: var(--ink-muted); font-size: 0.84rem; }
-  .pillar-card ul ul { margin-top: 4px; padding-inline-start: 16px; }
-
-  /* ---------- recovery ---------- */
-  .recovery-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    counter-reset: step;
   }
   .recovery-item {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 16px 20px;
+    padding: 18px 18px;
     box-shadow: var(--shadow);
     display: flex;
-    align-items: center;
-    gap: 16px;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1 1 190px;
   }
   .step-num {
-    counter-increment: step;
-    width: 34px; height: 34px;
+    width: 32px; height: 32px;
     border-radius: 50%;
     background: var(--accent);
     color: var(--accent-ink);
@@ -366,157 +467,177 @@
     font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
     flex-shrink: 0;
   }
-  .step-num::before { content: counter(step); }
-  .recovery-item p { margin: 0; font-weight: 600; }
-
-  footer {
-    text-align: center;
-    color: var(--ink-muted);
-    font-size: 0.82rem;
-    padding-top: 8px;
-    border-top: 1px solid var(--border);
+  .recovery-item p { margin: 0; font-weight: 600; font-size: 0.94rem; }
+  .recovery-arrow {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-muted); flex: 0 0 auto;
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    .pillar-card { transition: none; }
-  }
+  .recovery-arrow svg { width: 18px; height: 18px; }
+  @media (max-width: 700px) { .recovery-arrow { display: none; } }
 </style>
 
-<div class="wrap">
+<div class="app" id="app">
+  <div class="topbar">
+    <div class="brand"><span aria-hidden="true">🌊</span><span>น้ำท่วมน่าน 2026</span></div>
+    <div class="crumb" id="crumb" aria-live="polite">Overview</div>
+    <div class="counter" id="counter">1 / 9</div>
+  </div>
+  <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
 
-  <header>
-    <span class="eyebrow">OVERVIEW</span>
-    <h1>น้ำท่วมน่าน 2026</h1>
-    <p class="sub">สรุปสถานการณ์อุทกภัยจังหวัดน่าน ตั้งแต่สาเหตุ ผลกระทบ แนวทางรับมือ 3 กลุ่มเป้าหมาย ไปจนถึงการฟื้นฟูหลังน้ำลด</p>
-    <div class="tag-row">
-      <span class="tag"><span class="dot" style="background:var(--critical)"></span>กระทบ 4 อำเภอ</span>
-      <span class="tag"><span class="dot" style="background:var(--serious)"></span>มากกว่า 8,000 ครัวเรือน</span>
-      <span class="tag"><span class="dot" style="background:var(--warning)"></span>มากกว่า 16,000 คน</span>
-    </div>
-  </header>
+  <main class="stage" id="stage">
 
-  <!-- ================= CAUSES ================= -->
-  <section aria-labelledby="causes-h">
-    <div class="section-head">
-      <span class="eyebrow">CAUSES</span>
-      <h2 id="causes-h">สาเหตุของอุทกภัย</h2>
-      <p class="sub">ปัจจัยทางอุตุนิยมวิทยาและลักษณะพื้นที่ต้นน้ำที่ประกอบกันจนเกิดน้ำท่วม</p>
-    </div>
-    <div class="cause-grid">
-      <div class="cause-card">
-        <div class="icon-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 15a4 4 0 0 1 .3-8 5.5 5.5 0 0 1 10.6 1.2A3.8 3.8 0 0 1 17 15H6Z"/><path d="M8 18l-1 2M12 18l-1 2M16 18l-1 2"/></svg>
+    <!-- 1: OVERVIEW (hub) -->
+    <section class="slide" data-id="overview">
+      <div class="slide-head">
+        <span class="eyebrow">OVERVIEW</span>
+        <h2>น้ำท่วมน่าน 2026</h2>
+        <p class="sub">สรุปสถานการณ์อุทกภัยจังหวัดน่าน — คลิกหัวข้อเพื่อไปยังรายละเอียด หรือใช้ปุ่มด้านล่างเพื่อไล่ดูตามลำดับ</p>
+      </div>
+      <div class="hub-grid" id="overview-grid">
+        <svg class="connector-svg" id="overview-svg"></svg>
+        <div class="hub-root" id="overview-root">
+          <div class="display">น้ำท่วมน่าน</div>
+          <div class="en">Nan Flood 2026</div>
         </div>
-        <p>ฝนตกหนักต่อเนื่อง</p>
-      </div>
-      <div class="cause-card">
-        <div class="icon-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 8h11a3 3 0 1 0-2.5-4.6"/><path d="M3 13h15a3 3 0 1 1-2.5 4.6"/><path d="M3 18h8"/></svg>
+        <div class="hub-branches" id="overview-branches">
+          <button class="hub-branch" data-goto="causes">
+            <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 15a4 4 0 0 1 .3-8 5.5 5.5 0 0 1 10.6 1.2A3.8 3.8 0 0 1 17 15H6Z"/><path d="M8 18l-1 2M12 18l-1 2M16 18l-1 2"/></svg></div>
+            <div class="txt"><span class="th">สาเหตุ</span><span class="stat">4 ปัจจัย · Causes</span></div>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+          </button>
+          <button class="hub-branch" data-goto="impacts">
+            <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20v-3"/></svg></div>
+            <div class="txt"><span class="th">ผลกระทบ</span><span class="stat">16,000+ คน · Impact</span></div>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+          </button>
+          <button class="hub-branch" data-goto="actions">
+            <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15 9-2 6-6 2 2-6 6-2Z"/></svg></div>
+            <div class="txt"><span class="th">แนวทางรับมือ</span><span class="stat">3 กลุ่มเป้าหมาย · Actions</span></div>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+          </button>
+          <button class="hub-branch" data-goto="recovery">
+            <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <div class="txt"><span class="th">การฟื้นฟู</span><span class="stat">4 ขั้นตอน · Recovery</span></div>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+          </button>
         </div>
-        <p>ร่องมรสุมกำลังแรง</p>
       </div>
-      <div class="cause-card">
-        <div class="icon-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19 9.5 7 14 14.5 17 10l4 9H3Z"/><path d="M14 20v-4"/><path d="m11.2 17.6 2.8 2.4 2.8-2.4"/></svg>
+    </section>
+
+    <!-- 2: CAUSES -->
+    <section class="slide" data-id="causes">
+      <button class="back-link" data-goto="overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>ภาพรวม</button>
+      <div class="slide-head">
+        <span class="eyebrow">CAUSES</span>
+        <h2>สาเหตุของอุทกภัย</h2>
+        <p class="sub">ปัจจัยทางอุตุนิยมวิทยาและลักษณะพื้นที่ต้นน้ำที่ประกอบกันจนเกิดน้ำท่วม</p>
+      </div>
+      <div class="cause-grid">
+        <div class="cause-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 15a4 4 0 0 1 .3-8 5.5 5.5 0 0 1 10.6 1.2A3.8 3.8 0 0 1 17 15H6Z"/><path d="M8 18l-1 2M12 18l-1 2M16 18l-1 2"/></svg></div>
+          <p>ฝนตกหนักต่อเนื่อง</p>
         </div>
-        <p>โครงสร้างต้นน้ำเป็นภูเขา น้ำมาเร็ว</p>
-      </div>
-      <div class="cause-card">
-        <div class="icon-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 7 10h3l-4 6h4v5h4v-5h4l-4-6h3L12 3Z"/></svg>
+        <div class="cause-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 8h11a3 3 0 1 0-2.5-4.6"/><path d="M3 13h15a3 3 0 1 1-2.5 4.6"/><path d="M3 18h8"/></svg></div>
+          <p>ร่องมรสุมกำลังแรง</p>
         </div>
-        <p>ป่าและการใช้ที่ดินต้นน้ำ</p>
+        <div class="cause-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19 9.5 7 14 14.5 17 10l4 9H3Z"/><path d="M14 20v-4"/><path d="m11.2 17.6 2.8 2.4 2.8-2.4"/></svg></div>
+          <p>โครงสร้างต้นน้ำเป็นภูเขา น้ำมาเร็ว</p>
+        </div>
+        <div class="cause-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 7 10h3l-4 6h4v5h4v-5h4l-4-6h3L12 3Z"/></svg></div>
+          <p>ป่าและการใช้ที่ดินต้นน้ำ</p>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="connector">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v13"/><path d="m6 13 6 6 6-6"/></svg>
-      นำไปสู่ผลกระทบในวงกว้าง
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v13"/><path d="m6 13 6 6 6-6"/></svg>
-    </div>
-  </section>
-
-  <!-- ================= IMPACT ================= -->
-  <section aria-labelledby="impact-h">
-    <div class="section-head">
-      <span class="eyebrow">IMPACT</span>
-      <h2 id="impact-h">ผลกระทบที่เกิดขึ้น</h2>
-    </div>
-    <div class="kpi-row">
-      <div class="stat-tile">
-        <div class="label">อำเภอที่ได้รับผลกระทบ</div>
-        <div class="value">4 <span class="unit">อำเภอ</span></div>
+    <!-- 3: IMPACTS -->
+    <section class="slide" data-id="impacts">
+      <button class="back-link" data-goto="overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>ภาพรวม</button>
+      <div class="slide-head">
+        <span class="eyebrow">IMPACT</span>
+        <h2>ผลกระทบที่เกิดขึ้น</h2>
       </div>
-      <div class="stat-tile">
-        <div class="label">ครัวเรือนที่ได้รับผลกระทบ</div>
-        <div class="value">8,000+ <span class="unit">ครัวเรือน</span></div>
+      <div class="kpi-row">
+        <div class="stat-tile">
+          <div class="label">อำเภอที่ได้รับผลกระทบ</div>
+          <div class="value">4 <span class="unit">อำเภอ</span></div>
+        </div>
+        <div class="stat-tile">
+          <div class="label">ครัวเรือนที่ได้รับผลกระทบ</div>
+          <div class="value">8,000+ <span class="unit">ครัวเรือน</span></div>
+        </div>
+        <div class="stat-tile">
+          <div class="label">ประชาชนที่ได้รับผลกระทบ</div>
+          <div class="value">16,000+ <span class="unit">คน</span></div>
+        </div>
       </div>
-      <div class="stat-tile">
-        <div class="label">ประชาชนที่ได้รับผลกระทบ</div>
-        <div class="value">16,000+ <span class="unit">คน</span></div>
+    </section>
+
+    <!-- 4: ACTIONS (hub) -->
+    <section class="slide" data-id="actions">
+      <button class="back-link" data-goto="overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>ภาพรวม</button>
+      <div class="slide-head">
+        <span class="eyebrow">ACTIONS — 3 GROUPS</span>
+        <h2>แนวทางรับมือ 3 กลุ่มเป้าหมาย</h2>
+        <p class="sub hint">คลิกกลุ่มด้านซ้ายเพื่อไฮไลต์เส้นเชื่อม หรือคลิกเสาหลักด้านขวาเพื่อดูรายละเอียด</p>
       </div>
-    </div>
-  </section>
+      <div class="actions-grid" id="actions-grid">
+        <svg class="connector-svg" id="actions-svg"></svg>
+        <div class="hub-col" id="actions-groups">
+          <span class="col-label">3 กลุ่มเป้าหมาย</span>
+          <button class="hub-group" style="--group-color:var(--home)" data-targets="evac,info,supporters" aria-pressed="false">
+            <span class="dot"></span>
+            <span class="txt"><span class="th">อยู่บ้าน</span><span class="en">At home</span></span>
+          </button>
+          <button class="hub-group" style="--group-color:var(--shelter)" data-targets="shelter,evac,info" aria-pressed="false">
+            <span class="dot"></span>
+            <span class="txt"><span class="th">อยู่ศูนย์พักพิง</span><span class="en">At shelter</span></span>
+          </button>
+          <button class="hub-group" style="--group-color:var(--goout)" data-targets="evac,info" aria-pressed="false">
+            <span class="dot"></span>
+            <span class="txt"><span class="th">ออกไปข้างนอก</span><span class="en">Go out</span></span>
+          </button>
+        </div>
+        <div class="hub-col" id="actions-pillars">
+          <span class="col-label">4 เสาหลักสนับสนุน</span>
+          <button class="hub-pillar" id="pillar-shelter" data-goto="shelter">
+            <div class="txt"><span class="th">ศูนย์พักพิง</span><span class="en">Shelter</span></div>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+          </button>
+          <button class="hub-pillar" id="pillar-evac" data-goto="evac">
+            <div class="txt"><span class="th">แผนอพยพ</span><span class="en">Evacuation Plan</span></div>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+          </button>
+          <button class="hub-pillar" id="pillar-info" data-goto="info">
+            <div class="txt"><span class="th">ศูนย์ข้อมูล</span><span class="en">Information Center</span></div>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+          </button>
+          <button class="hub-pillar" id="pillar-supporters" data-goto="supporters">
+            <div class="txt"><span class="th">ผู้สนับสนุน</span><span class="en">Supporters</span></div>
+            <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+          </button>
+        </div>
+      </div>
+      <div class="legend-row">
+        <span class="legend-chip" style="background:var(--home-soft); color:var(--home)"><span class="dot" style="background:var(--home)"></span>อยู่บ้าน <span class="en">At home</span></span>
+        <span class="legend-chip" style="background:var(--shelter-soft); color:var(--shelter)"><span class="dot" style="background:var(--shelter)"></span>อยู่ศูนย์พักพิง <span class="en">At shelter</span></span>
+        <span class="legend-chip" style="background:var(--goout-soft); color:var(--goout)"><span class="dot" style="background:var(--goout)"></span>ออกไปข้างนอก <span class="en">Go out</span></span>
+      </div>
+    </section>
 
-  <!-- ================= ACTIONS ================= -->
-  <section aria-labelledby="actions-h">
-    <div class="section-head">
-      <span class="eyebrow">ACTIONS — 3 GROUPS</span>
-      <h2 id="actions-h">แนวทางรับมือ 3 กลุ่มเป้าหมาย</h2>
-      <p class="sub">แต่ละกลุ่มสถานการณ์ต้องการการสนับสนุนจาก 4 เสาหลักไม่เท่ากัน — ดูความเชื่อมโยงในตารางด้านล่าง</p>
-    </div>
-
-    <div class="legend-row">
-      <span class="legend-chip" style="background:var(--home-soft); color:var(--home); border-color:var(--accent-soft-border)"><span class="dot" style="background:var(--home)"></span>อยู่บ้าน <span class="en">At home</span></span>
-      <span class="legend-chip" style="background:var(--shelter-soft); color:var(--shelter)"><span class="dot" style="background:var(--shelter)"></span>อยู่ศูนย์พักพิง <span class="en">At shelter</span></span>
-      <span class="legend-chip" style="background:var(--goout-soft); color:var(--goout)"><span class="dot" style="background:var(--goout)"></span>ออกไปข้างนอก <span class="en">Go out</span></span>
-    </div>
-
-    <div class="matrix-scroll">
-      <table class="matrix">
-        <thead>
-          <tr>
-            <th>เสาหลักสนับสนุน</th>
-            <th style="color:var(--home)">อยู่บ้าน</th>
-            <th style="color:var(--shelter)">ศูนย์พักพิง</th>
-            <th style="color:var(--goout)">ออกไปข้างนอก</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>ศูนย์พักพิง<br><span class="note" style="font-weight:400;color:var(--ink-muted);font-size:0.78rem">Shelter</span></th>
-            <td><span class="cell-empty" title="ไม่เกี่ยวข้องโดยตรง"></span></td>
-            <td><span class="cell-dot" style="background:var(--shelter)" title="เกี่ยวข้อง"></span></td>
-            <td><span class="cell-empty" title="ไม่เกี่ยวข้องโดยตรง"></span></td>
-          </tr>
-          <tr>
-            <th>แผนอพยพ<br><span class="note" style="font-weight:400;color:var(--ink-muted);font-size:0.78rem">Evacuation Plan</span></th>
-            <td><span class="cell-dot" style="background:var(--home)" title="เกี่ยวข้อง"></span></td>
-            <td><span class="cell-dot" style="background:var(--shelter)" title="เกี่ยวข้อง"></span></td>
-            <td><span class="cell-dot" style="background:var(--goout)" title="เกี่ยวข้อง"></span></td>
-          </tr>
-          <tr>
-            <th>ศูนย์ข้อมูล<br><span class="note" style="font-weight:400;color:var(--ink-muted);font-size:0.78rem">Information Center</span></th>
-            <td><span class="cell-dot" style="background:var(--home)" title="เกี่ยวข้อง"></span></td>
-            <td><span class="cell-dot" style="background:var(--shelter)" title="เกี่ยวข้อง"></span></td>
-            <td><span class="cell-dot" style="background:var(--goout)" title="เกี่ยวข้อง"></span></td>
-          </tr>
-          <tr>
-            <th>ผู้สนับสนุน<br><span class="note" style="font-weight:400;color:var(--ink-muted);font-size:0.78rem">Supporters</span></th>
-            <td><span class="cell-dot" style="background:var(--home)" title="เกี่ยวข้อง"></span></td>
-            <td><span class="cell-empty" title="ไม่เกี่ยวข้องโดยตรง"></span></td>
-            <td><span class="cell-empty" title="ไม่เกี่ยวข้องโดยตรง"></span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="pillar-grid">
-      <div class="pillar-card">
-        <div class="pillar-top">
+    <!-- 5: SHELTER -->
+    <section class="slide" data-id="shelter">
+      <button class="back-link" data-goto="actions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>แนวทางรับมือ</button>
+      <div class="pillar-detail">
+        <div class="pillar-detail-top">
           <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20 12 4l9 16"/><path d="M8 20v-6h8v6"/></svg></div>
-          <h3>ศูนย์พักพิง</h3>
-          <div class="pillar-groups"><span class="mini-dot" style="background:var(--shelter)" title="อยู่ศูนย์พักพิง"></span></div>
+          <div>
+            <span class="eyebrow">ACTIONS · SHELTER</span>
+            <h2>ศูนย์พักพิง</h2>
+          </div>
+          <div class="pillar-detail-groups"><span class="mini-dot" style="background:var(--shelter)" title="อยู่ศูนย์พักพิง"></span></div>
         </div>
         <ul>
           <li>ที่ตั้ง / การแบ่งโซน / ความจุ / เส้นทางเข้าถึง</li>
@@ -525,12 +646,19 @@
           <li>เจ้าหน้าที่ <span class="note">(อาสาสมัคร / ฝ่ายปกครอง ฯลฯ)</span></li>
         </ul>
       </div>
+    </section>
 
-      <div class="pillar-card">
-        <div class="pillar-top">
+    <!-- 6: EVACUATION PLAN -->
+    <section class="slide" data-id="evac">
+      <button class="back-link" data-goto="actions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>แนวทางรับมือ</button>
+      <div class="pillar-detail">
+        <div class="pillar-detail-top">
           <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="2.5"/><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z"/></svg></div>
-          <h3>แผนอพยพ</h3>
-          <div class="pillar-groups">
+          <div>
+            <span class="eyebrow">ACTIONS · EVACUATION PLAN</span>
+            <h2>แผนอพยพ</h2>
+          </div>
+          <div class="pillar-detail-groups">
             <span class="mini-dot" style="background:var(--home)" title="อยู่บ้าน"></span>
             <span class="mini-dot" style="background:var(--shelter)" title="อยู่ศูนย์พักพิง"></span>
             <span class="mini-dot" style="background:var(--goout)" title="ออกไปข้างนอก"></span>
@@ -541,12 +669,19 @@
           <li>แผนกลุ่มเปราะบาง <span class="note">(การฝึกอบรม / เครื่องมือ / อาสาสมัคร ฯลฯ)</span></li>
         </ul>
       </div>
+    </section>
 
-      <div class="pillar-card">
-        <div class="pillar-top">
+    <!-- 7: INFORMATION CENTER -->
+    <section class="slide" data-id="info">
+      <button class="back-link" data-goto="actions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>แนวทางรับมือ</button>
+      <div class="pillar-detail">
+        <div class="pillar-detail-top">
           <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v13"/><path d="M8.5 5.5a5 5 0 0 1 7 0"/><path d="M6 3a8.5 8.5 0 0 1 12 0"/><circle cx="12" cy="5" r="1.4" fill="currentColor" stroke="none"/></svg></div>
-          <h3>ศูนย์ข้อมูล</h3>
-          <div class="pillar-groups">
+          <div>
+            <span class="eyebrow">ACTIONS · INFORMATION CENTER</span>
+            <h2>ศูนย์ข้อมูล</h2>
+          </div>
+          <div class="pillar-detail-groups">
             <span class="mini-dot" style="background:var(--home)" title="อยู่บ้าน"></span>
             <span class="mini-dot" style="background:var(--shelter)" title="อยู่ศูนย์พักพิง"></span>
             <span class="mini-dot" style="background:var(--goout)" title="ออกไปข้างนอก"></span>
@@ -569,12 +704,19 @@
           </li>
         </ul>
       </div>
+    </section>
 
-      <div class="pillar-card">
-        <div class="pillar-top">
+    <!-- 8: SUPPORTERS -->
+    <section class="slide" data-id="supporters">
+      <button class="back-link" data-goto="actions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>แนวทางรับมือ</button>
+      <div class="pillar-detail">
+        <div class="pillar-detail-top">
           <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.6"/><path d="M3 20c0-3.3 2.2-5.5 5-5.5s5 2.2 5 5.5"/><path d="M13.5 15c2.4.2 4 2.1 4 5"/></svg></div>
-          <h3>ผู้สนับสนุน</h3>
-          <div class="pillar-groups"><span class="mini-dot" style="background:var(--home)" title="อยู่บ้าน"></span></div>
+          <div>
+            <span class="eyebrow">ACTIONS · SUPPORTERS</span>
+            <h2>ผู้สนับสนุน</h2>
+          </div>
+          <div class="pillar-detail-groups"><span class="mini-dot" style="background:var(--home)" title="อยู่บ้าน"></span></div>
         </div>
         <ul>
           <li>งานโลจิสติกส์</li>
@@ -582,24 +724,197 @@
           <li>ศูนย์รับแจ้งเหตุ (Call Center)</li>
         </ul>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ================= RECOVERY ================= -->
-  <section aria-labelledby="recovery-h">
-    <div class="section-head">
-      <span class="eyebrow">RECOVERY</span>
-      <h2 id="recovery-h">การฟื้นฟูหลังน้ำลด</h2>
-      <p class="sub">ลำดับการดำเนินงานฟื้นฟูพื้นที่และเยียวยาผู้ประสบภัย</p>
-    </div>
-    <div class="recovery-list">
-      <div class="recovery-item"><span class="step-num"></span><p>ล้างโคลนและขยะที่มากับน้ำ</p></div>
-      <div class="recovery-item"><span class="step-num"></span><p>จัดการของใช้ที่เสียหายจากครัวเรือน</p></div>
-      <div class="recovery-item"><span class="step-num"></span><p>เยียวยาผู้ประสบภัย</p></div>
-      <div class="recovery-item"><span class="step-num"></span><p>ซ่อมแซมสิ่งปลูกสร้าง</p></div>
-    </div>
-  </section>
+    <!-- 9: RECOVERY -->
+    <section class="slide" data-id="recovery">
+      <button class="back-link" data-goto="overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>ภาพรวม</button>
+      <div class="slide-head">
+        <span class="eyebrow">RECOVERY</span>
+        <h2>การฟื้นฟูหลังน้ำลด</h2>
+        <p class="sub">ลำดับการดำเนินงานฟื้นฟูพื้นที่และเยียวยาผู้ประสบภัย</p>
+      </div>
+      <div class="recovery-flow">
+        <div class="recovery-item"><span class="step-num">1</span><p>ล้างโคลนและขยะที่มากับน้ำ</p></div>
+        <div class="recovery-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></div>
+        <div class="recovery-item"><span class="step-num">2</span><p>จัดการของใช้ที่เสียหายจากครัวเรือน</p></div>
+        <div class="recovery-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></div>
+        <div class="recovery-item"><span class="step-num">3</span><p>เยียวยาผู้ประสบภัย</p></div>
+        <div class="recovery-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></div>
+        <div class="recovery-item"><span class="step-num">4</span><p>ซ่อมแซมสิ่งปลูกสร้าง</p></div>
+      </div>
+    </section>
 
-  <footer>สรุปจากผังแนวคิดต้นฉบับ (Nan Flood 26.pdf)</footer>
+  </main>
 
+  <nav class="deck-nav">
+    <button class="nav-btn" id="prevBtn" aria-label="ก่อนหน้า">‹</button>
+    <div class="dots" id="dots"></div>
+    <button class="nav-btn" id="nextBtn" aria-label="ถัดไป">›</button>
+  </nav>
 </div>
+
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var dotsWrap = document.getElementById('dots');
+  var counterEl = document.getElementById('counter');
+  var crumbEl = document.getElementById('crumb');
+  var progressFill = document.getElementById('progressFill');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+
+  var crumbs = {
+    overview: 'Overview', causes: 'Causes', impacts: 'Impact', actions: 'Actions — 3 Groups',
+    shelter: 'Actions · Shelter', evac: 'Actions · Evacuation Plan', info: 'Actions · Information Center',
+    supporters: 'Actions · Supporters', recovery: 'Recovery'
+  };
+
+  var current = 0;
+
+  slides.forEach(function (s, i) {
+    var dot = document.createElement('button');
+    dot.className = 'dot';
+    dot.setAttribute('aria-label', crumbs[s.dataset.id] || s.dataset.id);
+    dot.addEventListener('click', function () { goTo(i); });
+    dotsWrap.appendChild(dot);
+  });
+  var dots = Array.prototype.slice.call(dotsWrap.children);
+
+  function show(i) {
+    var dir = i > current ? 1 : -1;
+    slides.forEach(function (s, idx) {
+      s.classList.remove('active');
+      if (idx === i) s.classList.add('active');
+    });
+    dots.forEach(function (d, idx) { d.classList.toggle('active', idx === i); });
+    counterEl.textContent = (i + 1) + ' / ' + slides.length;
+    crumbEl.textContent = crumbs[slides[i].dataset.id] || '';
+    progressFill.style.width = ((i + 1) / slides.length * 100) + '%';
+    prevBtn.disabled = i === 0;
+    nextBtn.disabled = i === slides.length - 1;
+    current = i;
+    requestAnimationFrame(function () {
+      var id = slides[i].dataset.id;
+      if (id === 'overview') drawOverviewConnectors();
+      if (id === 'actions') drawActionConnectors();
+    });
+  }
+
+  function goTo(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    if (i === current) return;
+    show(i);
+  }
+
+  prevBtn.addEventListener('click', function () { goTo(current - 1); });
+  nextBtn.addEventListener('click', function () { goTo(current + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { goTo(current + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { goTo(current - 1); }
+    else if (e.key === 'Home') { goTo(0); }
+    else if (e.key === 'End') { goTo(slides.length - 1); }
+  });
+
+  document.querySelectorAll('[data-goto]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var target = el.getAttribute('data-goto');
+      var idx = slides.findIndex(function (s) { return s.dataset.id === target; });
+      if (idx >= 0) goTo(idx);
+    });
+  });
+
+  /* ---------- connector drawing ---------- */
+  function clearSvg(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+
+  function pathBetween(svg, fromEl, toEl, color, groupId) {
+    var wrap = svg.getBoundingClientRect();
+    var a = fromEl.getBoundingClientRect();
+    var b = toEl.getBoundingClientRect();
+    var x1 = a.right - wrap.left, y1 = a.top + a.height / 2 - wrap.top;
+    var x2 = b.left - wrap.left, y2 = b.top + b.height / 2 - wrap.top;
+    var mx = (x1 + x2) / 2;
+    var d = 'M ' + x1 + ' ' + y1 + ' C ' + mx + ' ' + y1 + ' ' + mx + ' ' + y2 + ' ' + x2 + ' ' + y2;
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('stroke', color);
+    path.setAttribute('stroke-width', '2');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke-linecap', 'round');
+    if (groupId) path.setAttribute('data-group', groupId);
+    svg.appendChild(path);
+  }
+
+  function drawOverviewConnectors() {
+    var svg = document.getElementById('overview-svg');
+    if (!svg || svg.clientWidth === 0) return;
+    clearSvg(svg);
+    var root = document.getElementById('overview-root');
+    var accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    document.querySelectorAll('#overview-branches .hub-branch').forEach(function (b) {
+      pathBetween(svg, root, b, accent);
+    });
+  }
+
+  function drawActionConnectors() {
+    var svg = document.getElementById('actions-svg');
+    if (!svg || svg.clientWidth === 0) return;
+    clearSvg(svg);
+    document.querySelectorAll('#actions-groups .hub-group').forEach(function (g) {
+      var color = getComputedStyle(g).getPropertyValue('--group-color').trim();
+      var targets = g.getAttribute('data-targets').split(',');
+      var label = g.querySelector('.txt .en').textContent.trim();
+      targets.forEach(function (t) {
+        var el = document.getElementById('pillar-' + t);
+        if (el) pathBetween(svg, g, el, color, label);
+      });
+    });
+  }
+
+  window.addEventListener('resize', function () {
+    var id = slides[current].dataset.id;
+    if (id === 'overview') drawOverviewConnectors();
+    if (id === 'actions') drawActionConnectors();
+  });
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+    drawOverviewConnectors(); drawActionConnectors();
+  });
+  new MutationObserver(function () { drawOverviewConnectors(); drawActionConnectors(); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  /* ---------- group filter toggle on Actions hub ---------- */
+  var groupEls = Array.prototype.slice.call(document.querySelectorAll('.hub-group'));
+  var pillarEls = Array.prototype.slice.call(document.querySelectorAll('.hub-pillar'));
+  var actionsSvg = document.getElementById('actions-svg');
+
+  groupEls.forEach(function (g) {
+    g.addEventListener('click', function () {
+      var wasActive = g.getAttribute('aria-pressed') === 'true';
+      groupEls.forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
+      pillarEls.forEach(function (p) { p.classList.remove('dim', 'highlight'); });
+      actionsSvg.classList.remove('filtering');
+      Array.prototype.slice.call(actionsSvg.querySelectorAll('path')).forEach(function (p) {
+        p.style.opacity = '';
+      });
+
+      if (!wasActive) {
+        g.setAttribute('aria-pressed', 'true');
+        var targets = g.getAttribute('data-targets').split(',');
+        var label = g.querySelector('.txt .en').textContent.trim();
+        pillarEls.forEach(function (p) {
+          var id = p.id.replace('pillar-', '');
+          if (targets.indexOf(id) >= 0) p.classList.add('highlight');
+          else p.classList.add('dim');
+        });
+        actionsSvg.classList.add('filtering');
+        Array.prototype.slice.call(actionsSvg.querySelectorAll('path')).forEach(function (p) {
+          if (p.getAttribute('data-group') === label) p.style.opacity = '1';
+        });
+      }
+    });
+  });
+
+  show(0);
+})();
+</script>
