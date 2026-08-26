@@ -445,7 +445,7 @@
   /* ================= impacts ================= */
   .kpi-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 14px;
   }
   .stat-tile {
@@ -465,6 +465,7 @@
     line-height: 1;
   }
   .stat-tile .value .unit { font-size: 1.05rem; font-weight: 700; color: var(--ink-muted); margin-inline-start: 6px; }
+  .stat-detail { margin: 12px 0 0; font-size: 0.84rem; line-height: 1.55; color: var(--ink-soft); }
 
   /* ================= pillar detail slides ================= */
   .pillar-detail {
@@ -631,20 +632,33 @@
       <div class="slide-head">
         <span class="eyebrow">IMPACT</span>
         <h2>Impact</h2>
+        <p class="sub">Figures as reported 4pm, 19 August 2026, researched from Thai and international reporting.</p>
       </div>
       <div class="kpi-row">
         <div class="stat-tile">
           <div class="label">Districts affected</div>
           <div class="value">4 <span class="unit">districts</span></div>
+          <p class="stat-detail" lang="th">น้ำท่วมกระจายในอำเภอปัว ท่าวังผา สันติสุข และแม่จริม โดย อ.ปัว หนักสุด น้ำล้นตลิ่งเข้าท่วมบ้านเรือน ถนนสายหลักและสะพานบางจุดถูกตัดขาดจากดินถล่มบนทางหลวงหมายเลข 1081<span class="cite">[1][2]</span></p>
         </div>
         <div class="stat-tile">
           <div class="label">Households affected</div>
           <div class="value">8,000+ <span class="unit">households</span></div>
+          <p class="stat-detail" lang="th">ตัวเลขนี้ส่วนใหญ่มาจาก อ.ปัว เพียงแห่งเดียว ซึ่งมีถึง 7 ตำบล 60 หมู่บ้านที่ได้รับผลกระทบ ขณะที่อ่างเก็บน้ำน่านขึ้นสูงถึง 98.54% ของความจุ (36.923 ล้าน ลบ.ม.) ต้องเฝ้าระวังใกล้ชิด<span class="cite">[1][2]</span></p>
         </div>
         <div class="stat-tile">
           <div class="label">People affected</div>
           <div class="value">16,000+ <span class="unit">people</span></div>
+          <p class="stat-detail" lang="th">มีผู้เสียชีวิต 2 ราย (อ.ปัวและ อ.ท่าวังผา แห่งละ 1 ราย) เสาไฟฟ้าแรงสูงล้ม 15 ต้น เอียงอีก 23 ต้น บนเส้นทางปัว–ดอยภูคา–บ่อเกลือ ทำถนนใช้การไม่ได้ ต่อมารัฐบาลอนุมัติเงินช่วยเหลือฉุกเฉิน 100 ล้านบาทเพื่อจ่ายชดเชยผู้ประสบภัยภายใน 3–5 วัน<span class="cite">[1][3][4]</span></p>
         </div>
+      </div>
+      <div class="sources">
+        <span class="sources-label" lang="th">แหล่งอ้างอิง</span>
+        <ol>
+          <li>Nation Thailand, <a href="https://www.nationthailand.com/news/general/40070012" target="_blank" rel="noopener">“Nan floods kill 2 and affect more than 16,000 people”</a></li>
+          <li>Spacebar, <a href="https://spacebar.th/social/nan-floods-hit-4-districts-reservoir-capacity-nears-98-percent" target="_blank" rel="noopener">“เกาะติดน้ำท่วมน่าน 4 อำเภอจมบาดาล อ่างเก็บน้ำจ่อล้น”</a></li>
+          <li>The Thaiger, <a href="https://thethaiger.com/news/national/nan-floods-two-dead-16000-people-affected" target="_blank" rel="noopener">“Nan floods leave two dead, affect 16,000 people”</a></li>
+          <li>Nation Thailand, <a href="https://www.nationthailand.com/news/policy/40070136" target="_blank" rel="noopener">“Government Allocates THB100m as Army Joins Nan Flood Clearance”</a></li>
+        </ol>
       </div>
     </section>
 
